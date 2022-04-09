@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Notes</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_the_password">Repeat the password</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+    <string name="sign_in">Sign in</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_empty">Password is empty</string>
+    <string name="password_short">Password is less than 8 characters</string>
+    <string name="password_is_not_the_same">Password is not the same</string>
+    <string name="such_email_already_in_use">Such email is already in use</string>
+    <string name="weak_password">Password is weak</string>
+    <string name="network_exception">Check a network connection</string>
+    <string name="firebase_unknown_error">Unknown error from database</string>
+    <string name="general_error">Something went wrong</string>
 </resources>

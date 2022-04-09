@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="signup_margin">14dp</dimen>
+    <dimen name="signup_padding">14dp</dimen>
+    <dimen name="sign_up_already_have_margin">8dp</dimen>
+</resources>
