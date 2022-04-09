@@ -22,14 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes
+package com.github.plplmax.notes.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.github.plplmax.notes.R
+import com.github.plplmax.notes.ui.signup.SignUpFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        openSignUpFragment()
+    }
+
+    private fun openSignUpFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, SignUpFragment::class.java, null).commit()
     }
 }
