@@ -33,6 +33,7 @@ import kotlinx.coroutines.withTimeout
 interface UserRemoteDataSource {
     @Throws(Exception::class)
     suspend fun create(userInitial: UserInitial): AuthResult
+    suspend fun auth(userInitial: UserInitial): AuthResult
 
     class Base(private val firebaseAuth: FirebaseAuth) : UserRemoteDataSource {
         private companion object {
@@ -41,6 +42,14 @@ interface UserRemoteDataSource {
 
         override suspend fun create(userInitial: UserInitial): AuthResult = withTimeout(TIMEOUT) {
             firebaseAuth.createUserWithEmailAndPassword(
+                userInitial.email,
+                userInitial.password
+            )
+                .await()
+        }
+
+        override suspend fun auth(userInitial: UserInitial): AuthResult = withTimeout(TIMEOUT) {
+            firebaseAuth.signInWithEmailAndPassword(
                 userInitial.email,
                 userInitial.password
             )
