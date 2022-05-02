@@ -25,6 +25,7 @@
 package com.github.plplmax.notes.di
 
 import com.github.plplmax.notes.domain.auth.repository.UserRepository
+import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
 import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -39,4 +40,8 @@ object DomainModule {
     @Provides
     @Singleton
     fun createUserUseCase(repository: UserRepository) = CreateUserUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun authUserUseCase(repository: UserRepository) = AuthUserUseCase(repository)
 }

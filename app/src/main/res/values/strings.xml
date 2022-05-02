@@ -7,6 +7,7 @@
     <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
     <string name="sign_in">Sign in</string>
     <string name="invalid_email">Invalid email</string>
+    <string name="empty_email">Email is empty</string>
     <string name="password_empty">Password is empty</string>
     <string name="password_short">Password is less than 8 characters</string>
     <string name="password_is_not_the_same">Password is not the same</string>
@@ -15,4 +16,6 @@
     <string name="network_exception">Check a network connection</string>
     <string name="firebase_unknown_error">Unknown error from database</string>
     <string name="general_error">Something went wrong</string>
+    <string name="dont_have_account">Don\'t have an account yet? Sign up</string>
+    <string name="invalid_email_and_or_password">Invalid email and/or password</string>
 </resources>

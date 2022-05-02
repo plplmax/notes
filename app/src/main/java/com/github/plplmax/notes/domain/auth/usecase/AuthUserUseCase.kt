@@ -22,24 +22,18 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.ui.core
+package com.github.plplmax.notes.domain.auth.usecase
 
-import com.github.plplmax.notes.R
+import com.github.plplmax.notes.domain.auth.model.User
+import com.github.plplmax.notes.domain.auth.model.UserInitial
+import com.github.plplmax.notes.domain.auth.repository.UserRepository
 import com.github.plplmax.notes.domain.core.ErrorType
-import com.github.plplmax.notes.domain.core.Mapper
+import com.github.plplmax.notes.domain.core.Result
 
-class AuthExceptionUiMapper(
-    private val resourceProvider: ResourceProvider
-) : Mapper<ErrorType, String> {
-    override fun map(data: ErrorType): String {
-        return when (data) {
-            ErrorType.ERROR_INVALID_EMAIL -> resourceProvider.string(R.string.invalid_email)
-            ErrorType.ERROR_EMAIL_ALREADY_IN_USE -> resourceProvider.string(R.string.such_email_already_in_use)
-            ErrorType.ERROR_WEAK_PASSWORD -> resourceProvider.string(R.string.weak_password)
-            ErrorType.ERROR_INVALID_EMAIL_AND_OR_PASSWORD -> resourceProvider.string(R.string.invalid_email_and_or_password)
-            ErrorType.NETWORK_EXCEPTION -> resourceProvider.string(R.string.network_exception)
-            ErrorType.FIREBASE_UNKNOWN_ERROR -> resourceProvider.string(R.string.firebase_unknown_error)
-            ErrorType.GENERAL_ERROR -> resourceProvider.string(R.string.general_error)
-        }
+class AuthUserUseCase(
+    private val userRepository: UserRepository
+) {
+    suspend operator fun invoke(user: UserInitial): Result<User, ErrorType> {
+        return userRepository.auth(user)
     }
 }

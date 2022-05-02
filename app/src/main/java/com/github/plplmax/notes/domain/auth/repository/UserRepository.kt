@@ -31,4 +31,5 @@ import com.github.plplmax.notes.domain.core.Result
 
 interface UserRepository {
     suspend fun create(userInitial: UserInitial): Result<User, ErrorType>
+    suspend fun auth(userInitial: UserInitial): Result<User, ErrorType>
 }
