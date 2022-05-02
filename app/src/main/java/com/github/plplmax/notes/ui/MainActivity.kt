@@ -27,11 +27,13 @@ package com.github.plplmax.notes.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.plplmax.notes.R
+import com.github.plplmax.notes.ui.signin.SignInFragment
 import com.github.plplmax.notes.ui.signup.SignUpFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SignUpFragment.ToSignInScreenListener,
+    SignInFragment.ToSignUpScreenListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +43,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun openSignUpFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SignUpFragment::class.java, null).commit()
+            .replace(R.id.fragment_container, SignUpFragment::class.java, null)
+            .commit()
+    }
+
+    private fun openSignInFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, SignInFragment::class.java, null)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun popSignInFragment() {
+        supportFragmentManager.popBackStack()
+    }
+
+    override fun navigateToSignInScreen() {
+        openSignInFragment()
+    }
+
+    override fun navigateToSignUpScreen() {
+        popSignInFragment()
     }
 }
