@@ -43,4 +43,13 @@ class UserRepositoryImpl(
             Result.Fail(exceptionMapper.map(e))
         }
     }
+
+    override suspend fun auth(userInitial: UserInitial): Result<User, ErrorType> {
+        return try {
+            val user = userRemoteDataSource.auth(userInitial).user!!
+            Result.Success(User(user.uid, user.email!!))
+        } catch (e: Exception) {
+            Result.Fail(exceptionMapper.map(e))
+        }
+    }
 }
