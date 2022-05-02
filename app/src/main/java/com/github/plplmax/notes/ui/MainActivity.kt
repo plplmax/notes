@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity(), SignUpFragment.ToSignInScreenListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        openSignUpFragment()
+        if (savedInstanceState == null) {
+            openSignUpFragment()
+        }
     }
 
     private fun openSignUpFragment() {
