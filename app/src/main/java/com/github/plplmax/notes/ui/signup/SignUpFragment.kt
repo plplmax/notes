@@ -37,7 +37,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.plplmax.notes.R
-import com.github.plplmax.notes.databinding.SignupFragmentBinding
+import com.github.plplmax.notes.databinding.FragmentSignUpBinding
 import com.github.plplmax.notes.domain.core.Result
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -46,7 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
-    private var _binding: SignupFragmentBinding? = null
+    private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
     private var signInScreenListener: ToSignInScreenListener? = null
@@ -68,7 +68,7 @@ class SignUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = SignupFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
