@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
+
+    <!-- TODO: Add toolbar with name "Notes" -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +14,7 @@
         android:orientation="vertical"
         android:padding="@dimen/signup_padding">
 
+        <!-- TODO: Add padding to textview for visibility -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,6 +23,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:textColor="@color/black" />
 
+        <!-- TODO: Add "errorEnabled = true" to all TextInputLayout -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
