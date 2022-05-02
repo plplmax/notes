@@ -24,6 +24,7 @@
 
 package com.github.plplmax.notes.ui.signup
 
+import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -32,7 +33,6 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,7 +49,19 @@ class SignUpFragment : Fragment() {
     private var _binding: SignupFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private var signInScreenListener: ToSignInScreenListener? = null
+
     private val viewModel: SignUpViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is ToSignInScreenListener) {
+            signInScreenListener = context
+        } else {
+            throw Exception("Context must implement ToSignInScreenListener")
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,6 +86,11 @@ class SignUpFragment : Fragment() {
         _binding = null
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        signInScreenListener = null
+    }
+
     private fun initTextView() {
         val fullText = getString(R.string.already_have_an_account_sign_in)
         val signIn = getString(R.string.sign_in)
@@ -81,7 +98,7 @@ class SignUpFragment : Fragment() {
         val spannableString = SpannableString(fullText)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Toast.makeText(widget.context, "test", Toast.LENGTH_SHORT).show()
+                signInScreenListener?.navigateToSignInScreen()
             }
         }
 
@@ -174,5 +191,9 @@ class SignUpFragment : Fragment() {
         binding.passwordInput.isEnabled = newState
         binding.repeatPasswordInput.isEnabled = newState
         binding.signUpButton.isEnabled = newState
+    }
+
+    interface ToSignInScreenListener {
+        fun navigateToSignInScreen()
     }
 }
