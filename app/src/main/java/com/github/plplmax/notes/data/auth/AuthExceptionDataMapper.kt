@@ -36,6 +36,8 @@ class AuthExceptionDataMapper : Mapper<Exception, ErrorType> {
                 "ERROR_INVALID_EMAIL" -> ErrorType.ERROR_INVALID_EMAIL
                 "ERROR_EMAIL_ALREADY_IN_USE" -> ErrorType.ERROR_EMAIL_ALREADY_IN_USE
                 "ERROR_WEAK_PASSWORD" -> ErrorType.ERROR_WEAK_PASSWORD
+                "ERROR_WRONG_PASSWORD" -> ErrorType.ERROR_INVALID_EMAIL_AND_OR_PASSWORD
+                "ERROR_USER_NOT_FOUND" -> ErrorType.ERROR_INVALID_EMAIL_AND_OR_PASSWORD
                 else -> ErrorType.FIREBASE_UNKNOWN_ERROR
             }
         }
