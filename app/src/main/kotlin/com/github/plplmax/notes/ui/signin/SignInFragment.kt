@@ -33,6 +33,7 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -75,6 +76,7 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initTextView()
+        setupToolbar()
         observeToolbarBackButton()
         observeInputs()
         observeEmailError()
@@ -117,8 +119,19 @@ class SignInFragment : Fragment() {
         }
     }
 
+    private fun setupToolbar() {
+        binding.includeToolbar.toolbar.run {
+            title = getString(R.string.app_name)
+            navigationIcon = AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_baseline_chevron_left_24
+            )
+            navigationContentDescription = "Back"
+        }
+    }
+
     private fun observeToolbarBackButton() {
-        binding.toolbar.setNavigationOnClickListener {
+        binding.includeToolbar.toolbar.setNavigationOnClickListener {
             signUpScreenListener?.navigateToSignUpScreen()
         }
     }

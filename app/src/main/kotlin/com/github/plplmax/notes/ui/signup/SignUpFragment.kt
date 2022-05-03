@@ -76,6 +76,7 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initTextView()
+        setupToolbar()
         observeSignUpResult()
         observeSignUpButton()
         observeInputs()
@@ -113,6 +114,10 @@ class SignUpFragment : Fragment() {
             text = spannableString
             movementMethod = LinkMovementMethod.getInstance()
         }
+    }
+
+    private fun setupToolbar() {
+        binding.includeToolbar.toolbar.title = getString(R.string.app_name)
     }
 
     private fun observeSignUpResult() {

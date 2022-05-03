@@ -6,19 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:navigationContentDescription="Back"
-            app:navigationIcon="@drawable/ic_baseline_chevron_left_24" />
-    </com.google.android.material.appbar.AppBarLayout>
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/layout_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,16 +26,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sign_in"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:textColor="@color/black" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/email_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/signup_margin"
-                app:errorEnabled="true">
+                style="@style/Theme.Notes.TextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_input"
@@ -58,11 +43,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/signup_margin"
-                app:errorEnabled="true"
+                style="@style/Theme.Notes.TextInputLayout"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText

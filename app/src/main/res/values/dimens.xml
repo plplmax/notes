@@ -3,4 +3,6 @@
     <dimen name="signup_margin">14dp</dimen>
     <dimen name="signup_padding">14dp</dimen>
     <dimen name="sign_up_already_have_margin">8dp</dimen>
+    <dimen name="zero">0dp</dimen>
+    <dimen name="title_visibility_during_adjust">66dp</dimen>
 </resources>
