@@ -18,4 +18,5 @@
     <string name="general_error">Something went wrong</string>
     <string name="dont_have_account">Don\'t have an account yet? Sign up</string>
     <string name="invalid_email_and_or_password">Invalid email and/or password</string>
+    <string name="back">Back</string>
 </resources>
