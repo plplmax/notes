@@ -22,38 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.di
+package com.github.plplmax.notes.domain.notes.usecase
 
-import com.github.plplmax.notes.domain.auth.repository.UserRepository
-import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
-import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
+import com.github.plplmax.notes.domain.notes.model.Note
 import com.github.plplmax.notes.domain.notes.repository.NotesRepository
-import com.github.plplmax.notes.domain.notes.usecase.CreateNoteUseCase
-import com.github.plplmax.notes.domain.notes.usecase.StartGettingNotesUseCase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DomainModule {
-
-    @Provides
-    @Singleton
-    fun createUserUseCase(repository: UserRepository) = CreateUserUseCase(repository)
-
-    @Provides
-    @Singleton
-    fun authUserUseCase(repository: UserRepository) = AuthUserUseCase(repository)
-
-    @Provides
-    @Singleton
-    fun startGettingNotesUseCase(repository: NotesRepository) = StartGettingNotesUseCase(repository)
-
-    @Provides
-    @Singleton
-    fun createNoteUseCase(repository: NotesRepository) = CreateNoteUseCase(repository)
-
+class StartGettingNotesUseCase(private val repository: NotesRepository) {
+    operator fun invoke(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit) {
+        repository.startGettingNotes(onSuccess, onFailure)
+    }
 }
