@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.notes
+package com.github.plplmax.notes.domain.notes.model
 
 data class Note(val text: String? = null)
