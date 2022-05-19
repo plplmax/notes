@@ -22,33 +22,14 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.di
+package com.github.plplmax.notes.domain.notes.usecase
 
-import com.github.plplmax.notes.domain.auth.repository.UserRepository
-import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
-import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
+import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.notes.model.Note
 import com.github.plplmax.notes.domain.notes.repository.NotesRepository
-import com.github.plplmax.notes.domain.notes.usecase.CreateNoteUseCase
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DomainModule {
-
-    @Provides
-    @Singleton
-    fun createUserUseCase(repository: UserRepository) = CreateUserUseCase(repository)
-
-    @Provides
-    @Singleton
-    fun authUserUseCase(repository: UserRepository) = AuthUserUseCase(repository)
-
-    @Provides
-    @Singleton
-    fun createNoteUseCase(repository: NotesRepository) = CreateNoteUseCase(repository)
-
+class CreateNoteUseCase(private val repository: NotesRepository) {
+    suspend operator fun invoke(note: Note): Result<Unit, String> {
+        return repository.createNote(note)
+    }
 }
