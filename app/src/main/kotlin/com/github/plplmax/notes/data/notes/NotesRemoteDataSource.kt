@@ -24,7 +24,7 @@
 
 package com.github.plplmax.notes.data.notes
 
-import com.github.plplmax.notes.domain.notes.Note
+import com.github.plplmax.notes.domain.notes.model.Note
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
