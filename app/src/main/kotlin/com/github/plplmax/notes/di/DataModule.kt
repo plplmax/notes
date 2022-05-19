@@ -27,10 +27,14 @@ package com.github.plplmax.notes.di
 import com.github.plplmax.notes.data.auth.AuthExceptionDataMapper
 import com.github.plplmax.notes.data.auth.UserRemoteDataSource
 import com.github.plplmax.notes.data.auth.UserRepositoryImpl
+import com.github.plplmax.notes.data.notes.NotesRemoteDataSource
+import com.github.plplmax.notes.data.notes.NotesRepositoryImpl
 import com.github.plplmax.notes.domain.auth.repository.UserRepository
 import com.github.plplmax.notes.domain.core.ErrorType
 import com.github.plplmax.notes.domain.core.Mapper
+import com.github.plplmax.notes.domain.notes.repository.NotesRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,8 +55,20 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun notesRepository(remoteDataSource: NotesRemoteDataSource): NotesRepository {
+        return NotesRepositoryImpl(remoteDataSource)
+    }
+
+    @Provides
+    @Singleton
     fun userRemoteDataSource(firebaseAuth: FirebaseAuth): UserRemoteDataSource =
         UserRemoteDataSource.Base(firebaseAuth)
+
+    @Provides
+    @Singleton
+    fun notesRemoteDataSource(database: FirebaseDatabase): NotesRemoteDataSource {
+        return NotesRemoteDataSource.Base(database)
+    }
 
     @Provides
     @Singleton
