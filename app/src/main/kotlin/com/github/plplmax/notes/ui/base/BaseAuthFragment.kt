@@ -34,12 +34,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
 import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.ui.auth.AuthListener
 import com.github.plplmax.notes.ui.auth.AuthViewModel
-import com.github.plplmax.notes.ui.core.FragmentListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-abstract class BaseAuthFragment<T : ViewBinding, M : FragmentListener> : BaseFragment<T, M>() {
+abstract class BaseAuthFragment<T : ViewBinding> : BaseFragment<T, AuthListener>() {
     protected val viewModel: AuthViewModel.Base by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

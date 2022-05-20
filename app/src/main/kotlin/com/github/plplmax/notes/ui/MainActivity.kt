@@ -27,13 +27,13 @@ package com.github.plplmax.notes.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.plplmax.notes.R
+import com.github.plplmax.notes.ui.auth.AuthListener
 import com.github.plplmax.notes.ui.auth.SignInFragment
 import com.github.plplmax.notes.ui.auth.SignUpFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), SignUpFragment.ToSignInScreenListener,
-    SignInFragment.ToSignUpScreenListener {
+class MainActivity : AppCompatActivity(), AuthListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

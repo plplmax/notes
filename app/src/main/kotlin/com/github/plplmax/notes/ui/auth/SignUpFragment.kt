@@ -38,12 +38,11 @@ import com.github.plplmax.notes.ui.core.FragmentListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment :
-    BaseAuthFragment<FragmentSignUpBinding, SignUpFragment.ToSignInScreenListener>() {
+class SignUpFragment : BaseAuthFragment<FragmentSignUpBinding>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onAttach(context, ToSignInScreenListener::class.java)
+        onAttach(context, AuthListener::class.java)
     }
 
     override fun onCreateView(
