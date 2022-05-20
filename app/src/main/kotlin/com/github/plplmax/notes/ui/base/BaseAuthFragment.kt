@@ -46,7 +46,6 @@ abstract class BaseAuthFragment<T : ViewBinding> : BaseFragment<T, AuthListener>
         super.onViewCreated(view, savedInstanceState)
 
         initClickableTextView()
-        setupToolbar()
         observeInputs()
         observeEmailError()
         observePasswordError()

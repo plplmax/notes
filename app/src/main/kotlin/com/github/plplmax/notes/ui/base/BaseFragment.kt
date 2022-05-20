@@ -47,6 +47,12 @@ abstract class BaseFragment<T : ViewBinding, M : FragmentListener> : Fragment() 
 
     protected abstract fun setupToolbar()
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupToolbar()
+    }
+
     protected inline fun <reified T : M> onAttach(
         context: Context,
         interfaceToImplement: Class<T>
