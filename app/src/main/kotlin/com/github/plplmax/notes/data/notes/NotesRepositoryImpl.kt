@@ -22,10 +22,29 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.core
+package com.github.plplmax.notes.data.notes
 
-sealed class Result<T, M> {
-    class Success<T, M>(val data: T) : Result<T, M>()
-    class Fail<T, M : Any>(val e: M) : Result<T, M>()
-    class Loading<T, M> : Result<T, M>()
+import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.notes.model.Note
+import com.github.plplmax.notes.domain.notes.repository.NotesRepository
+import timber.log.Timber
+
+class NotesRepositoryImpl(private val remoteDataSource: NotesRemoteDataSource) : NotesRepository {
+    override fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit) {
+        remoteDataSource.startGettingNotes(onSuccess, onFailure)
+    }
+
+    override fun stopGettingNotes() {
+        remoteDataSource.stopGettingNotes()
+    }
+
+    override suspend fun createNote(note: Note): Result<Unit, String> {
+        return try {
+            remoteDataSource.createNote(note)
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Timber.e(e.message)
+            Result.Fail(e.message ?: "Undefined error")
+        }
+    }
 }

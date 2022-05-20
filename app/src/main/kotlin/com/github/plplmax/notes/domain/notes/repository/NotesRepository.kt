@@ -22,10 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.core
+package com.github.plplmax.notes.domain.notes.repository
 
-sealed class Result<T, M> {
-    class Success<T, M>(val data: T) : Result<T, M>()
-    class Fail<T, M : Any>(val e: M) : Result<T, M>()
-    class Loading<T, M> : Result<T, M>()
+import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.notes.model.Note
+
+interface NotesRepository {
+    fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit)
+    fun stopGettingNotes()
+    suspend fun createNote(note: Note): Result<Unit, String>
 }

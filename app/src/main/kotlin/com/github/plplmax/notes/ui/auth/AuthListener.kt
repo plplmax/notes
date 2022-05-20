@@ -22,10 +22,9 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.core
+package com.github.plplmax.notes.ui.auth
 
-sealed class Result<T, M> {
-    class Success<T, M>(val data: T) : Result<T, M>()
-    class Fail<T, M : Any>(val e: M) : Result<T, M>()
-    class Loading<T, M> : Result<T, M>()
-}
+import com.github.plplmax.notes.ui.notes.NotesFragment
+
+interface AuthListener : SignInFragment.ToSignUpScreenListener,
+    SignUpFragment.ToSignInScreenListener, NotesFragment.ToNoteScreenListener

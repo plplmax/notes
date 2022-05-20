@@ -22,10 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.core
+package com.github.plplmax.notes.domain.notes.usecase
 
-sealed class Result<T, M> {
-    class Success<T, M>(val data: T) : Result<T, M>()
-    class Fail<T, M : Any>(val e: M) : Result<T, M>()
-    class Loading<T, M> : Result<T, M>()
+import com.github.plplmax.notes.domain.notes.repository.NotesRepository
+
+class StopGettingNotesUseCase(private val repository: NotesRepository) {
+    operator fun invoke() {
+        repository.stopGettingNotes()
+    }
 }

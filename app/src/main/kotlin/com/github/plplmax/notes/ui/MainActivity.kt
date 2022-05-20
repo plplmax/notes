@@ -25,21 +25,31 @@
 package com.github.plplmax.notes.ui
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.plplmax.notes.R
+import com.github.plplmax.notes.ui.auth.AuthListener
 import com.github.plplmax.notes.ui.auth.SignInFragment
 import com.github.plplmax.notes.ui.auth.SignUpFragment
+import com.github.plplmax.notes.ui.notes.NotesFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), SignUpFragment.ToSignInScreenListener,
-    SignInFragment.ToSignUpScreenListener {
+class MainActivity : AppCompatActivity(), AuthListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        ) // Needed for transparent status bar
+
         if (savedInstanceState == null) {
-            openSignUpFragment()
+            if (Firebase.auth.uid == null) openSignUpFragment()
+            else openNotesFragment()
         }
     }
 
@@ -56,6 +66,12 @@ class MainActivity : AppCompatActivity(), SignUpFragment.ToSignInScreenListener,
             .commit()
     }
 
+    private fun openNotesFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, NotesFragment::class.java, null)
+            .commit()
+    }
+
     private fun popSignInFragment() {
         supportFragmentManager.popBackStack()
     }
@@ -66,5 +82,9 @@ class MainActivity : AppCompatActivity(), SignUpFragment.ToSignInScreenListener,
 
     override fun navigateToSignUpScreen() {
         popSignInFragment()
+    }
+
+    override fun navigateToNoteScreen() {
+        openNotesFragment()
     }
 }

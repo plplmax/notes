@@ -30,6 +30,9 @@ import com.github.plplmax.notes.domain.core.Mapper
 import com.github.plplmax.notes.ui.core.AuthExceptionUiMapper
 import com.github.plplmax.notes.ui.core.ResourceProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +45,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    private const val DATABASE_URL =
+        "https://notes-59009-default-rtdb.europe-west1.firebasedatabase.app/"
 
     @Provides
     @Singleton
@@ -52,6 +57,15 @@ object AppModule {
     @Provides
     @Singleton
     fun firebaseAuth() = FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun firebaseDatabase(): FirebaseDatabase {
+        val database = Firebase.database(DATABASE_URL)
+        database.setPersistenceEnabled(true)
+
+        return database
+    }
 
     @Provides
     @Singleton
