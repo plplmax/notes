@@ -26,6 +26,6 @@ package com.github.plplmax.notes.domain.core
 
 sealed class Result<T, M> {
     class Success<T, M>(val data: T) : Result<T, M>()
-    class Fail<T, M>(val e: M) : Result<T, M>()
+    class Fail<T, M : Any>(val e: M) : Result<T, M>()
     class Loading<T, M> : Result<T, M>()
 }
