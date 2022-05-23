@@ -24,20 +24,18 @@
 
 package com.github.plplmax.notes.data.notes
 
+import com.github.plplmax.notes.domain.notes.model.InitialNote
 import com.github.plplmax.notes.domain.notes.model.Note
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 interface NotesRemoteDataSource {
     fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit)
     fun stopGettingNotes()
-    suspend fun createNote(note: Note)
+    fun createNote(note: InitialNote): Note
+    fun editNote(note: Note)
 
     class Base(private val database: FirebaseDatabase) : NotesRemoteDataSource {
         private var callback: ValueEventListener? = null
@@ -46,15 +44,11 @@ interface NotesRemoteDataSource {
             onSuccess: (List<Note>) -> Unit,
             onFailure: (String) -> Unit
         ) {
-            val notes = database.reference
-                .child("users")
-                .child(Firebase.auth.uid!!)
-                .child("notes")
-
             callback = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val listOfNotes = snapshot.children
                         .mapNotNull { it.getValue(Note::class.java) }
+                        .asReversed()
                     onSuccess(listOfNotes)
                 }
 
@@ -63,24 +57,17 @@ interface NotesRemoteDataSource {
                 }
             }
 
-            notes.addValueEventListener(callback as ValueEventListener)
+            notesReference().addValueEventListener(callback as ValueEventListener)
         }
 
         override fun stopGettingNotes() {
             if (callback == null) return
 
-            database.reference
-                .child("users")
-                .child(Firebase.auth.uid!!)
-                .child("notes")
-                .removeEventListener(callback!!)
+            notesReference().removeEventListener(callback!!)
         }
 
-        override suspend fun createNote(note: Note) {
-            val notesReference = database.reference
-                .child("users")
-                .child(Firebase.auth.uid!!)
-                .child("notes")
+        override fun createNote(note: InitialNote): Note {
+            val notesReference = notesReference()
 
             val key = notesReference.push().key
 
@@ -88,10 +75,26 @@ interface NotesRemoteDataSource {
                 Timber.e("While executing createNote key was null")
             }
 
+            val newNote = Note(key, note.text)
+
             notesReference.updateChildren(
-                mapOf("/$key" to note)
+                mapOf("/$key" to newNote)
             )
-                .await()
+
+            return newNote
+        }
+
+        override fun editNote(note: Note) {
+            notesReference().updateChildren(
+                mapOf("/${note.id}" to note)
+            )
+        }
+
+        private fun notesReference(): DatabaseReference {
+            return database.reference
+                .child("users")
+                .child(Firebase.auth.uid!!)
+                .child("notes")
         }
     }
 }
