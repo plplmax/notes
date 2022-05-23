@@ -27,17 +27,28 @@ package com.github.plplmax.notes.ui
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.github.plplmax.notes.R
+import com.github.plplmax.notes.domain.notes.model.Note
 import com.github.plplmax.notes.ui.auth.AuthListener
 import com.github.plplmax.notes.ui.auth.SignInFragment
 import com.github.plplmax.notes.ui.auth.SignUpFragment
+import com.github.plplmax.notes.ui.note.NoteFragment
 import com.github.plplmax.notes.ui.notes.NotesFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), AuthListener {
+class MainActivity : AppCompatActivity(), AuthListener, NoteFragment.ToNoteScreenListener {
+
+    private companion object {
+        const val TIMEOUT_IN_MS = 125L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,38 +64,41 @@ class MainActivity : AppCompatActivity(), AuthListener {
         }
     }
 
-    private fun openSignUpFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SignUpFragment::class.java, null)
-            .commit()
+    private fun openSignUpFragment() = openFragment(SignUpFragment())
+
+    private fun openSignInFragment() = openFragment(SignInFragment(), addToBackStack = true)
+
+    private fun openNotesFragment() = openFragment(NotesFragment())
+
+    private fun openNoteFragmentForCreate() = openFragment(NoteFragment(), addToBackStack = true)
+
+    private fun openNoteFragmentForEdit(note: Note) {
+        lifecycleScope.launch {
+            delay(TIMEOUT_IN_MS)
+
+            openFragment(NoteFragment.newInstance(note), addToBackStack = true)
+        }
     }
 
-    private fun openSignInFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SignInFragment::class.java, null)
-            .addToBackStack(null)
-            .commit()
+    private fun openFragment(fragment: Fragment, addToBackStack: Boolean = false) {
+        with(supportFragmentManager.beginTransaction()) {
+            replace(R.id.fragment_container, fragment)
+
+            if (addToBackStack) addToBackStack(null)
+
+            commit()
+        }
     }
 
-    private fun openNotesFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, NotesFragment::class.java, null)
-            .commit()
-    }
+    private fun popSignInFragment() = supportFragmentManager.popBackStack()
 
-    private fun popSignInFragment() {
-        supportFragmentManager.popBackStack()
-    }
+    override fun navigateToSignInScreen() = openSignInFragment()
 
-    override fun navigateToSignInScreen() {
-        openSignInFragment()
-    }
+    override fun navigateToSignUpScreen() = popSignInFragment()
 
-    override fun navigateToSignUpScreen() {
-        popSignInFragment()
-    }
+    override fun navigateToNotesScreen() = openNotesFragment()
 
-    override fun navigateToNotesScreen() {
-        openNotesFragment()
-    }
+    override fun navigateToNoteScreenForCreate() = openNoteFragmentForCreate()
+
+    override fun navigateToNoteScreenForEdit(note: Note) = openNoteFragmentForEdit(note)
 }
