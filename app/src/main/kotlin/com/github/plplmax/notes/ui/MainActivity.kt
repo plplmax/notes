@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), AuthListener {
         popSignInFragment()
     }
 
-    override fun navigateToNoteScreen() {
+    override fun navigateToNotesScreen() {
         openNotesFragment()
     }
 }

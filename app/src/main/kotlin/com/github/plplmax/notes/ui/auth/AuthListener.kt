@@ -27,4 +27,4 @@ package com.github.plplmax.notes.ui.auth
 import com.github.plplmax.notes.ui.notes.NotesFragment
 
 interface AuthListener : SignInFragment.ToSignUpScreenListener,
-    SignUpFragment.ToSignInScreenListener, NotesFragment.ToNoteScreenListener
+    SignUpFragment.ToSignInScreenListener, NotesFragment.ToNotesScreenListener

@@ -108,7 +108,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragment.ToNoteScr
         )
     }
 
-    interface ToNoteScreenListener : FragmentListener {
-        fun navigateToNoteScreen()
+    interface ToNotesScreenListener : FragmentListener {
+        fun navigateToNotesScreen()
     }
 }
