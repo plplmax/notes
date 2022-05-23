@@ -67,6 +67,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
         setupNavigationView()
         setupFloatingActionButton()
         observeNotes()
+        observeError()
     }
 
     override fun setupToolbar() {
@@ -120,6 +121,12 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
             viewModel.notesLiveData,
             (binding.recyclerView.adapter as NotesAdapter)::updateNotes
         )
+    }
+
+    private fun observeError() {
+        observe(viewModel.errorLiveData) {
+            showSnackbar(it, binding.floatingActionButton)
+        }
     }
 
     interface ToNotesScreenListener : FragmentListener {
