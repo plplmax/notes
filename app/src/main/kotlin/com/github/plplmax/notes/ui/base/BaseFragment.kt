@@ -75,7 +75,13 @@ abstract class BaseFragment<T : ViewBinding, M : FragmentListener> : Fragment() 
         listener = null
     }
 
-    protected fun showSnackbar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
-        Snackbar.make(requireView(), message, duration).show()
+    protected fun showSnackbar(
+        message: String,
+        anchorView: View? = null,
+        duration: Int = Snackbar.LENGTH_SHORT
+    ) {
+        Snackbar.make(requireView(), message, duration)
+            .setAnchorView(anchorView)
+            .show()
     }
 }

@@ -24,4 +24,6 @@
 
 package com.github.plplmax.notes.domain.notes.model
 
-data class Note(val text: String? = null)
+import java.io.Serializable
+
+data class Note(val id: String? = null, val text: String? = null) : Serializable

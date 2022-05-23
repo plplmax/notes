@@ -22,14 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.notes.usecase
+package com.github.plplmax.notes.ui.core
 
-import com.github.plplmax.notes.domain.notes.model.InitialNote
-import com.github.plplmax.notes.domain.notes.model.Note
-import com.github.plplmax.notes.domain.notes.repository.NotesRepository
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
 
-class CreateNoteUseCase(private val repository: NotesRepository) {
-    operator fun invoke(note: InitialNote): Note {
-        return repository.createNote(note)
-    }
+fun Context.inputMethodManager(): InputMethodManager {
+    return getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 }

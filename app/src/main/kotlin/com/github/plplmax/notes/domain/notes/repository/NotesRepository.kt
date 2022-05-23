@@ -24,11 +24,12 @@
 
 package com.github.plplmax.notes.domain.notes.repository
 
-import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.notes.model.InitialNote
 import com.github.plplmax.notes.domain.notes.model.Note
 
 interface NotesRepository {
     fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit)
     fun stopGettingNotes()
-    suspend fun createNote(note: Note): Result<Unit, String>
+    fun createNote(note: InitialNote): Note
+    fun editNote(note: Note)
 }

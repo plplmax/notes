@@ -26,25 +26,27 @@ package com.github.plplmax.notes.ui.notes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.github.plplmax.notes.databinding.NoteItemBinding
 import com.github.plplmax.notes.domain.notes.model.Note
+import com.github.plplmax.notes.ui.note.NoteFragment
 
-class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+class NotesAdapter(private val listener: NoteFragment.ToNoteScreenListener) :
+    RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     private var notes = listOf<Note>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val binding = NoteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.cardNote.setOnClickListener {
-            Toast.makeText(parent.context, "Hello", Toast.LENGTH_SHORT).show()
-        }
         return NotesViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val note = notes[position]
         holder.binding.notePreview.text = note.text
+
+        holder.binding.cardNote.setOnClickListener {
+            listener.navigateToNoteScreenForEdit(note)
+        }
     }
 
     override fun getItemCount() = notes.size

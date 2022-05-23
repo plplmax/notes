@@ -22,14 +22,6 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.notes.usecase
+package com.github.plplmax.notes.domain.notes.model
 
-import com.github.plplmax.notes.domain.notes.model.InitialNote
-import com.github.plplmax.notes.domain.notes.model.Note
-import com.github.plplmax.notes.domain.notes.repository.NotesRepository
-
-class CreateNoteUseCase(private val repository: NotesRepository) {
-    operator fun invoke(note: InitialNote): Note {
-        return repository.createNote(note)
-    }
-}
+data class InitialNote(val text: String)

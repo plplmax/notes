@@ -22,14 +22,21 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.notes.usecase
+package com.github.plplmax.notes.ui.core
 
-import com.github.plplmax.notes.domain.notes.model.InitialNote
-import com.github.plplmax.notes.domain.notes.model.Note
-import com.github.plplmax.notes.domain.notes.repository.NotesRepository
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 
-class CreateNoteUseCase(private val repository: NotesRepository) {
-    operator fun invoke(note: InitialNote): Note {
-        return repository.createNote(note)
-    }
+fun EditText.showKeyboard() {
+    val imm = context.inputMethodManager()
+
+    requestFocus()
+    imm.showSoftInput(this, InputMethodManager.SHOW_FORCED)
+}
+
+fun EditText.hideKeyboard() {
+    val imm = context.inputMethodManager()
+
+    clearFocus()
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

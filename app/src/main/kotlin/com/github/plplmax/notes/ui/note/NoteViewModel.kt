@@ -22,14 +22,44 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.notes.usecase
+package com.github.plplmax.notes.ui.note
 
+import androidx.lifecycle.ViewModel
 import com.github.plplmax.notes.domain.notes.model.InitialNote
 import com.github.plplmax.notes.domain.notes.model.Note
-import com.github.plplmax.notes.domain.notes.repository.NotesRepository
+import com.github.plplmax.notes.domain.notes.usecase.CreateNoteUseCase
+import com.github.plplmax.notes.domain.notes.usecase.EditNoteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CreateNoteUseCase(private val repository: NotesRepository) {
-    operator fun invoke(note: InitialNote): Note {
-        return repository.createNote(note)
+interface NoteViewModel {
+    fun submitNote(note: Note)
+    fun submitText(text: String)
+
+    @HiltViewModel
+    class Base @Inject constructor(
+        private val createNoteUseCase: CreateNoteUseCase,
+        private val editNoteUseCase: EditNoteUseCase
+    ) : ViewModel(), NoteViewModel {
+
+        var note: Note? = null
+            private set
+
+        override fun submitNote(note: Note) {
+            this.note = note
+        }
+
+        override fun submitText(text: String) {
+            if (text.trim().isEmpty()) return
+
+            note = if (note == null) {
+                createNoteUseCase(InitialNote(text))
+            } else {
+                val editedNote = Note(note!!.id, text)
+
+                editNoteUseCase(editedNote)
+                editedNote
+            }
+        }
     }
 }

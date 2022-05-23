@@ -90,7 +90,7 @@ abstract class BaseAuthFragment<T : ViewBinding> : BaseFragment<T, AuthListener>
         observe(viewModel.authResult) { result ->
             when (result) {
                 is Result.Success -> {
-                    listener?.navigateToNoteScreen()
+                    listener?.navigateToNotesScreen()
                 }
                 is Result.Fail -> {
                     showSnackbar(result.e)

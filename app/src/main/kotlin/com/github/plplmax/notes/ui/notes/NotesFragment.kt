@@ -24,6 +24,7 @@
 
 package com.github.plplmax.notes.ui.notes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,12 +37,18 @@ import com.github.plplmax.notes.R
 import com.github.plplmax.notes.databinding.FragmentNotesBinding
 import com.github.plplmax.notes.ui.base.BaseFragment
 import com.github.plplmax.notes.ui.core.FragmentListener
+import com.github.plplmax.notes.ui.note.NoteFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragment.ToNoteScreenListener>() {
+class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScreenListener>() {
 
     private val viewModel: NotesViewModel.Base by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onAttach(context, NoteFragment.ToNoteScreenListener::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +65,9 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragment.ToNoteScr
         setupRecyclerView()
         setupDrawerLayout()
         setupNavigationView()
+        setupFloatingActionButton()
         observeNotes()
+        observeError()
     }
 
     override fun setupToolbar() {
@@ -73,7 +82,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragment.ToNoteScr
         val manager = GridLayoutManager(requireContext(), 2)
 
         binding.recyclerView.layoutManager = manager
-        binding.recyclerView.adapter = NotesAdapter()
+        binding.recyclerView.adapter = NotesAdapter(listener!!)
     }
 
     private fun setupDrawerLayout() {
@@ -101,6 +110,12 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragment.ToNoteScr
         binding.navigationView.setCheckedItem(R.id.notes)
     }
 
+    private fun setupFloatingActionButton() {
+        binding.floatingActionButton.setOnClickListener {
+            listener?.navigateToNoteScreenForCreate()
+        }
+    }
+
     private fun observeNotes() {
         observe(
             viewModel.notesLiveData,
@@ -108,7 +123,13 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragment.ToNoteScr
         )
     }
 
-    interface ToNoteScreenListener : FragmentListener {
-        fun navigateToNoteScreen()
+    private fun observeError() {
+        observe(viewModel.errorLiveData) {
+            showSnackbar(it, binding.floatingActionButton)
+        }
+    }
+
+    interface ToNotesScreenListener : FragmentListener {
+        fun navigateToNotesScreen()
     }
 }

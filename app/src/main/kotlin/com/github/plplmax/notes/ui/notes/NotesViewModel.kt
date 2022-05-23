@@ -29,9 +29,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.plplmax.notes.di.AppModule
-import com.github.plplmax.notes.domain.core.Result
-import com.github.plplmax.notes.domain.notes.usecase.CreateNoteUseCase
 import com.github.plplmax.notes.domain.notes.model.Note
+import com.github.plplmax.notes.domain.notes.usecase.CreateNoteUseCase
 import com.github.plplmax.notes.domain.notes.usecase.StartGettingNotesUseCase
 import com.github.plplmax.notes.domain.notes.usecase.StopGettingNotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,7 +42,6 @@ import javax.inject.Inject
 interface NotesViewModel {
     fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit)
     fun stopGettingNotes()
-    fun createNote(text: String)
 
     @HiltViewModel
     class Base @Inject constructor(
@@ -73,18 +71,6 @@ interface NotesViewModel {
 
         override fun stopGettingNotes() {
             stopGettingNotesUseCase()
-        }
-
-        override fun createNote(text: String) {
-            val note = Note(text)
-
-            viewModelScope.launch(ioDispatcher) {
-                val result = createNoteUseCase(note)
-
-                if (result is Result.Fail) {
-                    _errorLiveData.postValue(result.e)
-                }
-            }
         }
 
         override fun onCleared() {
