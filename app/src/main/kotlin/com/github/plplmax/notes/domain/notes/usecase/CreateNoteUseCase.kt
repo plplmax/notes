@@ -24,12 +24,12 @@
 
 package com.github.plplmax.notes.domain.notes.usecase
 
-import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.notes.model.InitialNote
 import com.github.plplmax.notes.domain.notes.model.Note
 import com.github.plplmax.notes.domain.notes.repository.NotesRepository
 
 class CreateNoteUseCase(private val repository: NotesRepository) {
-    suspend operator fun invoke(note: Note): Result<Unit, String> {
+    operator fun invoke(note: InitialNote): Note {
         return repository.createNote(note)
     }
 }
