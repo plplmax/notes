@@ -24,10 +24,9 @@
 
 package com.github.plplmax.notes.data.notes
 
-import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.notes.model.InitialNote
 import com.github.plplmax.notes.domain.notes.model.Note
 import com.github.plplmax.notes.domain.notes.repository.NotesRepository
-import timber.log.Timber
 
 class NotesRepositoryImpl(private val remoteDataSource: NotesRemoteDataSource) : NotesRepository {
     override fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit) {
@@ -38,13 +37,11 @@ class NotesRepositoryImpl(private val remoteDataSource: NotesRemoteDataSource) :
         remoteDataSource.stopGettingNotes()
     }
 
-    override suspend fun createNote(note: Note): Result<Unit, String> {
-        return try {
-            remoteDataSource.createNote(note)
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Timber.e(e.message)
-            Result.Fail(e.message ?: "Undefined error")
-        }
+    override fun createNote(note: InitialNote): Note {
+        return remoteDataSource.createNote(note)
+    }
+
+    override fun editNote(note: Note) {
+        remoteDataSource.editNote(note)
     }
 }
