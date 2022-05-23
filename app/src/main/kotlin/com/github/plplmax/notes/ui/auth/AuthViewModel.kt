@@ -146,10 +146,6 @@ interface AuthViewModel {
             return null
         }
 
-        private fun passwordValidSignIn(password: String): String? {
-            return passwordEmpty(password)
-        }
-
         private fun passwordEmpty(password: String): String? {
             if (password == "null" || password.isEmpty()) {
                 return resourceProvider.string(R.string.password_empty)
