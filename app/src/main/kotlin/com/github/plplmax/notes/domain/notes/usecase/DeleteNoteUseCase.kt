@@ -22,16 +22,13 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.notes.repository
+package com.github.plplmax.notes.domain.notes.usecase
 
-import com.github.plplmax.notes.domain.notes.model.InitialNote
 import com.github.plplmax.notes.domain.notes.model.Note
+import com.github.plplmax.notes.domain.notes.repository.NotesRepository
 
-interface NotesRepository {
-    fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit)
-    fun stopGettingNotes()
-    fun createNote(note: InitialNote): Note
-    fun editNote(note: Note)
-    fun deleteNote(note: Note)
-    fun deleteAllNotes()
+class DeleteNoteUseCase(private val repository: NotesRepository) {
+    operator fun invoke(note: Note) {
+        repository.deleteNote(note)
+    }
 }

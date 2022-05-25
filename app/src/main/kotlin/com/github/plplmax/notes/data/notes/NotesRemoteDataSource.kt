@@ -36,6 +36,8 @@ interface NotesRemoteDataSource {
     fun stopGettingNotes()
     fun createNote(note: InitialNote): Note
     fun editNote(note: Note)
+    fun deleteNote(note: Note)
+    fun deleteAllNotes()
 
     class Base(private val database: FirebaseDatabase) : NotesRemoteDataSource {
         private var callback: ValueEventListener? = null
@@ -88,6 +90,14 @@ interface NotesRemoteDataSource {
             notesReference().updateChildren(
                 mapOf("/${note.id}" to note)
             )
+        }
+
+        override fun deleteNote(note: Note) {
+            notesReference().child(note.id!!).removeValue()
+        }
+
+        override fun deleteAllNotes() {
+            notesReference().removeValue()
         }
 
         private fun notesReference(): DatabaseReference {

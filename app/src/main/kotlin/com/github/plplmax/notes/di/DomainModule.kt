@@ -28,10 +28,7 @@ import com.github.plplmax.notes.domain.auth.repository.UserRepository
 import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
 import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
 import com.github.plplmax.notes.domain.notes.repository.NotesRepository
-import com.github.plplmax.notes.domain.notes.usecase.CreateNoteUseCase
-import com.github.plplmax.notes.domain.notes.usecase.EditNoteUseCase
-import com.github.plplmax.notes.domain.notes.usecase.StartGettingNotesUseCase
-import com.github.plplmax.notes.domain.notes.usecase.StopGettingNotesUseCase
+import com.github.plplmax.notes.domain.notes.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,4 +63,11 @@ object DomainModule {
     @Singleton
     fun editNoteUseCase(repository: NotesRepository) = EditNoteUseCase(repository)
 
+    @Provides
+    @Singleton
+    fun deleteNoteUseCase(repository: NotesRepository) = DeleteNoteUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun deleteAllNotesUseCase(repository: NotesRepository) = DeleteAllNotesUseCase(repository)
 }

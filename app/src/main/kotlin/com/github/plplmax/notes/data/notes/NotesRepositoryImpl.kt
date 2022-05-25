@@ -44,4 +44,12 @@ class NotesRepositoryImpl(private val remoteDataSource: NotesRemoteDataSource) :
     override fun editNote(note: Note) {
         remoteDataSource.editNote(note)
     }
+
+    override fun deleteNote(note: Note) {
+        remoteDataSource.deleteNote(note)
+    }
+
+    override fun deleteAllNotes() {
+        remoteDataSource.deleteAllNotes()
+    }
 }
