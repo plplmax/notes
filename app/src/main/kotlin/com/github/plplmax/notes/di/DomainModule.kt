@@ -66,4 +66,8 @@ object DomainModule {
     @Provides
     @Singleton
     fun deleteNoteUseCase(repository: NotesRepository) = DeleteNoteUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun deleteAllNotesUseCase(repository: NotesRepository) = DeleteAllNotesUseCase(repository)
 }
