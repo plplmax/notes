@@ -84,7 +84,7 @@ class NotesAdapter(private val listener: NoteFragment.ToNoteScreenListener) :
             v: View?,
             menuInfo: ContextMenu.ContextMenuInfo?
         ) {
-            menu?.add(Menu.NONE, R.id.delete, Menu.NONE, "Delete")
+            menu?.add(Menu.NONE, R.id.delete, Menu.NONE, R.string.delete)
         }
     }
 }
