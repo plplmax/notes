@@ -24,16 +24,19 @@
 
 package com.github.plplmax.notes.ui.notes
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.github.plplmax.notes.R
 import com.github.plplmax.notes.databinding.NoteItemBinding
 import com.github.plplmax.notes.domain.notes.model.Note
 import com.github.plplmax.notes.ui.note.NoteFragment
 
 class NotesAdapter(private val listener: NoteFragment.ToNoteScreenListener) :
     RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+
     private var notes = listOf<Note>()
+    var note: Note? = null
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val binding = NoteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -44,9 +47,21 @@ class NotesAdapter(private val listener: NoteFragment.ToNoteScreenListener) :
         val note = notes[position]
         holder.binding.notePreview.text = note.text
 
-        holder.binding.cardNote.setOnClickListener {
-            listener.navigateToNoteScreenForEdit(note)
+        with(holder.binding.cardNote) {
+            setOnClickListener {
+                listener.navigateToNoteScreenForEdit(note)
+            }
+
+            setOnLongClickListener {
+                this@NotesAdapter.note = note
+                false
+            }
         }
+    }
+
+    override fun onViewRecycled(holder: NotesViewHolder) {
+        holder.binding.cardNote.setOnLongClickListener(null)
+        super.onViewRecycled(holder)
     }
 
     override fun getItemCount() = notes.size
@@ -56,6 +71,20 @@ class NotesAdapter(private val listener: NoteFragment.ToNoteScreenListener) :
         notifyDataSetChanged()
     }
 
+
     inner class NotesViewHolder(val binding: NoteItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root), View.OnCreateContextMenuListener {
+
+        init {
+            binding.cardNote.setOnCreateContextMenuListener(this)
+        }
+
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            menu?.add(Menu.NONE, R.id.delete, Menu.NONE, "Delete")
+        }
+    }
 }

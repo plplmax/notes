@@ -27,6 +27,7 @@ package com.github.plplmax.notes.ui.notes
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -63,6 +64,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupContextMenu()
         setupDrawerLayout()
         setupNavigationView()
         setupFloatingActionButton()
@@ -70,11 +72,28 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
         observeError()
     }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val note = (binding.recyclerView.adapter as NotesAdapter).note
+
+        if (item.itemId == R.id.delete) {
+            viewModel.deleteNote(note!!)
+        }
+
+        return super.onContextItemSelected(item)
+    }
+
     override fun setupToolbar() {
         binding.includeToolbar.toolbar.run {
             title = getString(R.string.app_name)
             navigationIcon =
                 AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_menu_24)
+            inflateMenu(R.menu.menu_toolbar)
+            setOnMenuItemClickListener {
+                if (it.itemId == R.id.delete_all) {
+                    viewModel.deleteAllNotes()
+                }
+                true
+            }
         }
     }
 
@@ -84,6 +103,8 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
         binding.recyclerView.layoutManager = manager
         binding.recyclerView.adapter = NotesAdapter(listener!!)
     }
+
+    private fun setupContextMenu() = registerForContextMenu(binding.recyclerView)
 
     private fun setupDrawerLayout() {
         val toggle = object : ActionBarDrawerToggle(
