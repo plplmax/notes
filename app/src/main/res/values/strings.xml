@@ -23,4 +23,6 @@
     <string name="new_note">New note</string>
     <string name="edit_note">Edit note</string>
     <string name="enter_your_note_here">Enter your note here...</string>
+    <string name="delete">Delete</string>
+    <string name="delete_all_notes">Delete all notes</string>
 </resources>
