@@ -28,6 +28,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.plplmax.notes.domain.notes.model.Note
+import com.github.plplmax.notes.domain.notes.usecase.DeleteAllNotesUseCase
+import com.github.plplmax.notes.domain.notes.usecase.DeleteNoteUseCase
 import com.github.plplmax.notes.domain.notes.usecase.StartGettingNotesUseCase
 import com.github.plplmax.notes.domain.notes.usecase.StopGettingNotesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,11 +38,15 @@ import javax.inject.Inject
 interface NotesViewModel {
     fun startGettingNotes(onSuccess: (List<Note>) -> Unit, onFailure: (String) -> Unit)
     fun stopGettingNotes()
+    fun deleteNote(note: Note)
+    fun deleteAllNotes()
 
     @HiltViewModel
     class Base @Inject constructor(
         private val startGettingNotesUseCase: StartGettingNotesUseCase,
-        private val stopGettingNotesUseCase: StopGettingNotesUseCase
+        private val stopGettingNotesUseCase: StopGettingNotesUseCase,
+        private val deleteNoteUseCase: DeleteNoteUseCase,
+        private val deleteAllNotesUseCase: DeleteAllNotesUseCase
     ) : ViewModel(), NotesViewModel {
         private val _notesLiveData = MutableLiveData<List<Note>>()
         val notesLiveData: LiveData<List<Note>> = _notesLiveData
@@ -61,6 +67,14 @@ interface NotesViewModel {
 
         override fun stopGettingNotes() {
             stopGettingNotesUseCase()
+        }
+
+        override fun deleteNote(note: Note) {
+            deleteNoteUseCase(note)
+        }
+
+        override fun deleteAllNotes() {
+            deleteAllNotesUseCase()
         }
 
         override fun onCleared() {

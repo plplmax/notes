@@ -32,4 +32,6 @@ interface NotesRepository {
     fun stopGettingNotes()
     fun createNote(note: InitialNote): Note
     fun editNote(note: Note)
+    fun deleteNote(note: Note)
+    fun deleteAllNotes()
 }
