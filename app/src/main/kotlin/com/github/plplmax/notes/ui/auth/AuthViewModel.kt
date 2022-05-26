@@ -34,6 +34,7 @@ import com.github.plplmax.notes.di.AppModule
 import com.github.plplmax.notes.domain.auth.model.UserInitial
 import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
 import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
+import com.github.plplmax.notes.domain.auth.usecase.GetUserEmailUseCase
 import com.github.plplmax.notes.domain.auth.usecase.LogOutUserUseCase
 import com.github.plplmax.notes.domain.core.ErrorType
 import com.github.plplmax.notes.domain.core.Mapper
@@ -49,12 +50,14 @@ interface AuthViewModel {
     fun createUser(email: String, password: String, repeatPassword: String)
     fun authUser(email: String, password: String)
     fun logOutUser()
+    fun userEmail(): String
 
     @HiltViewModel
     class Base @Inject constructor(
         private val authUserUseCase: AuthUserUseCase,
         private val logOutUserUseCase: LogOutUserUseCase,
         private val createUserUseCase: CreateUserUseCase,
+        private val getUserEmailUseCase: GetUserEmailUseCase,
         private val authExceptionUiMapper: Mapper<ErrorType, String>,
         private val resourceProvider: ResourceProvider,
         @AppModule.IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -124,6 +127,8 @@ interface AuthViewModel {
         }
 
         override fun logOutUser() = logOutUserUseCase()
+
+        override fun userEmail() = getUserEmailUseCase()
 
         private fun emailValid(email: String): String? {
             if (email == "null" || email.trim().isEmpty()) {
