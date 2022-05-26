@@ -54,4 +54,6 @@ class UserRepositoryImpl(
     }
 
     override fun logOut() = userRemoteDataSource.logOut()
+
+    override fun email() = userRemoteDataSource.email()
 }
