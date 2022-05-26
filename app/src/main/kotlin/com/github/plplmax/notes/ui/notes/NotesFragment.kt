@@ -38,17 +38,16 @@ import com.github.plplmax.notes.R
 import com.github.plplmax.notes.databinding.FragmentNotesBinding
 import com.github.plplmax.notes.ui.base.BaseFragment
 import com.github.plplmax.notes.ui.core.FragmentListener
-import com.github.plplmax.notes.ui.note.NoteFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScreenListener>() {
+class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragmentListener>() {
 
     private val notesViewModel: NotesViewModel.Base by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onAttach(context, NoteFragment.ToNoteScreenListener::class.java)
+        onAttach(context, NotesFragmentListener::class.java)
     }
 
     override fun onCreateView(
