@@ -94,7 +94,13 @@ class MainActivity : AppCompatActivity(), AuthListener, NoteFragment.ToNoteScree
 
     override fun navigateToSignInScreen() = openSignInFragment()
 
-    override fun navigateToSignUpScreen() = popSignInFragment()
+    override fun navigateToSignUpScreen(fromSignIn: Boolean) {
+        if (fromSignIn) {
+            popSignInFragment()
+        } else {
+            openSignUpFragment()
+        }
+    }
 
     override fun navigateToNotesScreen() {
         popSignInFragment()

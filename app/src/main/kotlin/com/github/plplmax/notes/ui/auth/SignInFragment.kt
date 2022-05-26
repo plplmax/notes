@@ -65,7 +65,7 @@ class SignInFragment : BaseAuthFragment<FragmentSignInBinding>() {
     override fun initClickableTextView() {
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                listener?.navigateToSignUpScreen()
+                listener?.navigateToSignUpScreen(fromSignIn = true)
             }
         }
 
@@ -94,7 +94,7 @@ class SignInFragment : BaseAuthFragment<FragmentSignInBinding>() {
 
     private fun observeToolbarBackButton() {
         binding.includeToolbar.toolbar.setNavigationOnClickListener {
-            listener?.navigateToSignUpScreen()
+            listener?.navigateToSignUpScreen(fromSignIn = true)
         }
     }
 
@@ -127,6 +127,6 @@ class SignInFragment : BaseAuthFragment<FragmentSignInBinding>() {
     }
 
     interface ToSignUpScreenListener : FragmentListener {
-        fun navigateToSignUpScreen()
+        fun navigateToSignUpScreen(fromSignIn: Boolean = false)
     }
 }
