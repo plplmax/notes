@@ -41,6 +41,7 @@ interface NotesRemoteDataSource {
 
     class Base(private val database: FirebaseDatabase) : NotesRemoteDataSource {
         private var callback: ValueEventListener? = null
+        private var reference: DatabaseReference? = null
 
         override fun startGettingNotes(
             onSuccess: (List<Note>) -> Unit,
@@ -59,13 +60,16 @@ interface NotesRemoteDataSource {
                 }
             }
 
-            notesReference().addValueEventListener(callback as ValueEventListener)
+            with(notesReference()) {
+                addValueEventListener(callback as ValueEventListener)
+                reference = this
+            }
         }
 
         override fun stopGettingNotes() {
-            if (callback == null) return
+            if (callback == null || reference == null) return
 
-            notesReference().removeEventListener(callback!!)
+            reference!!.removeEventListener(callback!!)
         }
 
         override fun createNote(note: InitialNote): Note {
