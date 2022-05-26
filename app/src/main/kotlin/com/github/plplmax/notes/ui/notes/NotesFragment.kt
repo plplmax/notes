@@ -36,6 +36,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.plplmax.notes.R
 import com.github.plplmax.notes.databinding.FragmentNotesBinding
+import com.github.plplmax.notes.ui.auth.AuthViewModel
 import com.github.plplmax.notes.ui.base.BaseFragment
 import com.github.plplmax.notes.ui.core.FragmentListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +45,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragmentListener>() {
 
     private val notesViewModel: NotesViewModel.Base by viewModels()
+    private val authViewModel: AuthViewModel.Base by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -127,7 +129,17 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragmentListener>(
     }
 
     private fun setupNavigationView() {
-        binding.navigationView.setCheckedItem(R.id.notes)
+        with(binding.navigationView) {
+            setCheckedItem(R.id.notes)
+            setNavigationItemSelectedListener {
+                if (it.itemId == R.id.log_out) {
+                    authViewModel.logOutUser()
+                    listener?.navigateToSignUpScreen()
+                }
+
+                false
+            }
+        }
     }
 
     private fun setupFloatingActionButton() {
