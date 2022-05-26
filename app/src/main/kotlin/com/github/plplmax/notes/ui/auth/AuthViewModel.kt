@@ -47,6 +47,7 @@ import javax.inject.Inject
 interface AuthViewModel {
     fun createUser(email: String, password: String, repeatPassword: String)
     fun authUser(email: String, password: String)
+    fun logOutUser()
 
     @HiltViewModel
     class Base @Inject constructor(
@@ -119,6 +120,8 @@ interface AuthViewModel {
                 }
             }
         }
+
+        override fun logOutUser() = logOutUserUseCase()
 
         private fun emailValid(email: String): String? {
             if (email == "null" || email.trim().isEmpty()) {

@@ -52,4 +52,6 @@ class UserRepositoryImpl(
             Result.Fail(exceptionMapper.map(e))
         }
     }
+
+    override fun logOut() = userRemoteDataSource.logOut()
 }

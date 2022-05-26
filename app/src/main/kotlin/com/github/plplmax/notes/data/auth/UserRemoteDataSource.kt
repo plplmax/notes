@@ -34,6 +34,7 @@ interface UserRemoteDataSource {
     @Throws(Exception::class)
     suspend fun create(userInitial: UserInitial): AuthResult
     suspend fun auth(userInitial: UserInitial): AuthResult
+    fun logOut()
 
     class Base(private val firebaseAuth: FirebaseAuth) : UserRemoteDataSource {
         private companion object {
@@ -55,5 +56,7 @@ interface UserRemoteDataSource {
             )
                 .await()
         }
+
+        override fun logOut() = firebaseAuth.signOut()
     }
 }
