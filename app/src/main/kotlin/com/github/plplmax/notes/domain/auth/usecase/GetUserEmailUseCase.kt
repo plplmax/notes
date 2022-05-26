@@ -22,16 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.auth.repository
+package com.github.plplmax.notes.domain.auth.usecase
 
-import com.github.plplmax.notes.domain.auth.model.User
-import com.github.plplmax.notes.domain.auth.model.UserInitial
-import com.github.plplmax.notes.domain.core.ErrorType
-import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.domain.auth.repository.UserRepository
 
-interface UserRepository {
-    suspend fun create(userInitial: UserInitial): Result<User, ErrorType>
-    suspend fun auth(userInitial: UserInitial): Result<User, ErrorType>
-    fun logOut()
-    fun email(): String
+class GetUserEmailUseCase(private val repository: UserRepository) {
+    operator fun invoke(): String {
+        return repository.email()
+    }
 }

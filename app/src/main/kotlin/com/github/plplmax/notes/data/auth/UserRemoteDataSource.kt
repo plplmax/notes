@@ -35,6 +35,7 @@ interface UserRemoteDataSource {
     suspend fun create(userInitial: UserInitial): AuthResult
     suspend fun auth(userInitial: UserInitial): AuthResult
     fun logOut()
+    fun email(): String
 
     class Base(private val firebaseAuth: FirebaseAuth) : UserRemoteDataSource {
         private companion object {
@@ -58,5 +59,9 @@ interface UserRemoteDataSource {
         }
 
         override fun logOut() = firebaseAuth.signOut()
+
+        override fun email(): String {
+            return firebaseAuth.currentUser?.email ?: ""
+        }
     }
 }

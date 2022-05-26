@@ -25,4 +25,5 @@
     <string name="delete">Delete</string>
     <string name="delete_all_notes">Delete all notes</string>
     <string name="log_out">Log out</string>
+    <string name="menu">Menu</string>
 </resources>

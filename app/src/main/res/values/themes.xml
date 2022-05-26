@@ -18,5 +18,8 @@
         <item name="android:imeOptions">flagNoFullscreen</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false
         </item> <!--Needed for a Huawei's navigation bar, as minimum-->
+
+        <item name="textAppearanceBody2">@style/Theme.Notes.TextAppearance.Body2</item>
+        <item name="textAppearanceHeadline6">@style/Theme.Notes.TextAppearance.Headline6</item>
     </style>
 </resources>

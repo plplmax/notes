@@ -30,6 +30,8 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.viewModels
@@ -139,6 +141,8 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragmentListener>(
 
                 false
             }
+            (getHeaderView(0) as LinearLayout).findViewById<TextView>(R.id.email).text =
+                authViewModel.userEmail()
         }
     }
 
