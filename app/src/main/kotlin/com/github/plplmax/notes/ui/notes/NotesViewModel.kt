@@ -78,8 +78,8 @@ interface NotesViewModel {
         }
 
         override fun onCleared() {
-            super.onCleared()
             stopGettingNotes()
+            super.onCleared()
         }
     }
 }

@@ -36,19 +36,20 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.plplmax.notes.R
 import com.github.plplmax.notes.databinding.FragmentNotesBinding
+import com.github.plplmax.notes.ui.auth.AuthViewModel
 import com.github.plplmax.notes.ui.base.BaseFragment
 import com.github.plplmax.notes.ui.core.FragmentListener
-import com.github.plplmax.notes.ui.note.NoteFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScreenListener>() {
+class NotesFragment : BaseFragment<FragmentNotesBinding, NotesFragmentListener>() {
 
-    private val viewModel: NotesViewModel.Base by viewModels()
+    private val notesViewModel: NotesViewModel.Base by viewModels()
+    private val authViewModel: AuthViewModel.Base by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        onAttach(context, NoteFragment.ToNoteScreenListener::class.java)
+        onAttach(context, NotesFragmentListener::class.java)
     }
 
     override fun onCreateView(
@@ -76,7 +77,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
         val note = (binding.recyclerView.adapter as NotesAdapter).note
 
         if (item.itemId == R.id.delete) {
-            viewModel.deleteNote(note!!)
+            notesViewModel.deleteNote(note!!)
         }
 
         return super.onContextItemSelected(item)
@@ -90,7 +91,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
             inflateMenu(R.menu.menu_toolbar)
             setOnMenuItemClickListener {
                 if (it.itemId == R.id.delete_all) {
-                    viewModel.deleteAllNotes()
+                    notesViewModel.deleteAllNotes()
                 }
                 true
             }
@@ -128,7 +129,17 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
     }
 
     private fun setupNavigationView() {
-        binding.navigationView.setCheckedItem(R.id.notes)
+        with(binding.navigationView) {
+            setCheckedItem(R.id.notes)
+            setNavigationItemSelectedListener {
+                if (it.itemId == R.id.log_out) {
+                    authViewModel.logOutUser()
+                    listener?.navigateToSignUpScreen()
+                }
+
+                false
+            }
+        }
     }
 
     private fun setupFloatingActionButton() {
@@ -139,13 +150,13 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
 
     private fun observeNotes() {
         observe(
-            viewModel.notesLiveData,
+            notesViewModel.notesLiveData,
             (binding.recyclerView.adapter as NotesAdapter)::updateNotes
         )
     }
 
     private fun observeError() {
-        observe(viewModel.errorLiveData) {
+        observe(notesViewModel.errorLiveData) {
             showSnackbar(it, binding.floatingActionButton)
         }
     }

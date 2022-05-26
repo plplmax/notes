@@ -34,6 +34,7 @@ import com.github.plplmax.notes.di.AppModule
 import com.github.plplmax.notes.domain.auth.model.UserInitial
 import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
 import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
+import com.github.plplmax.notes.domain.auth.usecase.LogOutUserUseCase
 import com.github.plplmax.notes.domain.core.ErrorType
 import com.github.plplmax.notes.domain.core.Mapper
 import com.github.plplmax.notes.domain.core.Result
@@ -47,10 +48,12 @@ import javax.inject.Inject
 interface AuthViewModel {
     fun createUser(email: String, password: String, repeatPassword: String)
     fun authUser(email: String, password: String)
+    fun logOutUser()
 
     @HiltViewModel
     class Base @Inject constructor(
         private val authUserUseCase: AuthUserUseCase,
+        private val logOutUserUseCase: LogOutUserUseCase,
         private val createUserUseCase: CreateUserUseCase,
         private val authExceptionUiMapper: Mapper<ErrorType, String>,
         private val resourceProvider: ResourceProvider,
@@ -119,6 +122,8 @@ interface AuthViewModel {
                 }
             }
         }
+
+        override fun logOutUser() = logOutUserUseCase()
 
         private fun emailValid(email: String): String? {
             if (email == "null" || email.trim().isEmpty()) {

@@ -22,15 +22,10 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.domain.auth.repository
+package com.github.plplmax.notes.ui.notes
 
-import com.github.plplmax.notes.domain.auth.model.User
-import com.github.plplmax.notes.domain.auth.model.UserInitial
-import com.github.plplmax.notes.domain.core.ErrorType
-import com.github.plplmax.notes.domain.core.Result
+import com.github.plplmax.notes.ui.auth.SignInFragment
+import com.github.plplmax.notes.ui.note.NoteFragment
 
-interface UserRepository {
-    suspend fun create(userInitial: UserInitial): Result<User, ErrorType>
-    suspend fun auth(userInitial: UserInitial): Result<User, ErrorType>
-    fun logOut()
-}
+interface NotesFragmentListener : NoteFragment.ToNoteScreenListener,
+    SignInFragment.ToSignUpScreenListener

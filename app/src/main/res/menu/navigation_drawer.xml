@@ -12,9 +12,9 @@
             android:title="@string/app_name" />
 
         <item
-            android:id="@+id/settings"
+            android:id="@+id/log_out"
             android:checked="false"
-            android:icon="@drawable/ic_baseline_settings_24"
-            android:title="@string/settings" />
+            android:icon="@drawable/ic_baseline_exit_to_app_24"
+            android:title="@string/log_out" />
     </group>
 </menu>

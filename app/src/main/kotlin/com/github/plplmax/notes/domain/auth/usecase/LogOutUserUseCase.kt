@@ -22,36 +22,10 @@
  * SOFTWARE.
  */
 
-package com.github.plplmax.notes.data.auth
+package com.github.plplmax.notes.domain.auth.usecase
 
-import com.github.plplmax.notes.domain.auth.model.User
-import com.github.plplmax.notes.domain.auth.model.UserInitial
 import com.github.plplmax.notes.domain.auth.repository.UserRepository
-import com.github.plplmax.notes.domain.core.ErrorType
-import com.github.plplmax.notes.domain.core.Mapper
-import com.github.plplmax.notes.domain.core.Result
 
-class UserRepositoryImpl(
-    private val userRemoteDataSource: UserRemoteDataSource,
-    private val exceptionMapper: Mapper<Exception, ErrorType>
-) : UserRepository {
-    override suspend fun create(userInitial: UserInitial): Result<User, ErrorType> {
-        return try {
-            val user = userRemoteDataSource.create(userInitial).user!!
-            Result.Success(User(user.uid, user.email!!))
-        } catch (e: Exception) {
-            Result.Fail(exceptionMapper.map(e))
-        }
-    }
-
-    override suspend fun auth(userInitial: UserInitial): Result<User, ErrorType> {
-        return try {
-            val user = userRemoteDataSource.auth(userInitial).user!!
-            Result.Success(User(user.uid, user.email!!))
-        } catch (e: Exception) {
-            Result.Fail(exceptionMapper.map(e))
-        }
-    }
-
-    override fun logOut() = userRemoteDataSource.logOut()
+class LogOutUserUseCase(private val repository: UserRepository) {
+    operator fun invoke() = repository.logOut()
 }

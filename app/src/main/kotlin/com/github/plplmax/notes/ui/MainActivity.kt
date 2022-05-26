@@ -36,6 +36,7 @@ import com.github.plplmax.notes.ui.auth.SignInFragment
 import com.github.plplmax.notes.ui.auth.SignUpFragment
 import com.github.plplmax.notes.ui.note.NoteFragment
 import com.github.plplmax.notes.ui.notes.NotesFragment
+import com.github.plplmax.notes.ui.notes.NotesFragmentListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,8 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), AuthListener, NoteFragment.ToNoteScreenListener {
-
+class MainActivity : AppCompatActivity(), AuthListener, NotesFragmentListener {
     private companion object {
         const val TIMEOUT_IN_MS = 125L
     }
@@ -94,7 +94,13 @@ class MainActivity : AppCompatActivity(), AuthListener, NoteFragment.ToNoteScree
 
     override fun navigateToSignInScreen() = openSignInFragment()
 
-    override fun navigateToSignUpScreen() = popSignInFragment()
+    override fun navigateToSignUpScreen(fromSignIn: Boolean) {
+        if (fromSignIn) {
+            popSignInFragment()
+        } else {
+            openSignUpFragment()
+        }
+    }
 
     override fun navigateToNotesScreen() {
         popSignInFragment()
