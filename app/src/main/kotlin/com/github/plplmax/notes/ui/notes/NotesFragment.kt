@@ -44,7 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScreenListener>() {
 
-    private val viewModel: NotesViewModel.Base by viewModels()
+    private val notesViewModel: NotesViewModel.Base by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,7 +76,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
         val note = (binding.recyclerView.adapter as NotesAdapter).note
 
         if (item.itemId == R.id.delete) {
-            viewModel.deleteNote(note!!)
+            notesViewModel.deleteNote(note!!)
         }
 
         return super.onContextItemSelected(item)
@@ -90,7 +90,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
             inflateMenu(R.menu.menu_toolbar)
             setOnMenuItemClickListener {
                 if (it.itemId == R.id.delete_all) {
-                    viewModel.deleteAllNotes()
+                    notesViewModel.deleteAllNotes()
                 }
                 true
             }
@@ -139,13 +139,13 @@ class NotesFragment : BaseFragment<FragmentNotesBinding, NoteFragment.ToNoteScre
 
     private fun observeNotes() {
         observe(
-            viewModel.notesLiveData,
+            notesViewModel.notesLiveData,
             (binding.recyclerView.adapter as NotesAdapter)::updateNotes
         )
     }
 
     private fun observeError() {
-        observe(viewModel.errorLiveData) {
+        observe(notesViewModel.errorLiveData) {
             showSnackbar(it, binding.floatingActionButton)
         }
     }
