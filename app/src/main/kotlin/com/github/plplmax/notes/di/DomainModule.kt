@@ -27,6 +27,7 @@ package com.github.plplmax.notes.di
 import com.github.plplmax.notes.domain.auth.repository.UserRepository
 import com.github.plplmax.notes.domain.auth.usecase.AuthUserUseCase
 import com.github.plplmax.notes.domain.auth.usecase.CreateUserUseCase
+import com.github.plplmax.notes.domain.auth.usecase.GetUserEmailUseCase
 import com.github.plplmax.notes.domain.auth.usecase.LogOutUserUseCase
 import com.github.plplmax.notes.domain.notes.repository.NotesRepository
 import com.github.plplmax.notes.domain.notes.usecase.*
@@ -51,6 +52,10 @@ object DomainModule {
     @Provides
     @Singleton
     fun logOutUserUseCase(repository: UserRepository) = LogOutUserUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun getUserEmailUseCase(repository: UserRepository) = GetUserEmailUseCase(repository)
 
     @Provides
     @Singleton
